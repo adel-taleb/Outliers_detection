@@ -1,0 +1,13 @@
+mlflow
+scikit-learn
+pandas
+datasets
+boto3
+sentence-transformers
+colorlog
+tensorflow
+tf-keras
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==2.3.1+cu118
+torchvision==0.18.1+cu118
+torchaudio==2.3.1+cu118
