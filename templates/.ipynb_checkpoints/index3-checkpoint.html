@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlier Detection</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        input, select, textarea, button {
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script>
+        // Define models for each category
+        const textOnlyModels = {{ text_only_models | tojson }};
+        const textWithFeaturesModels = {{ text_with_features_models | tojson }};
+        
+        function updateModelOptions() {
+            const modelCategory = document.getElementById("modelCategory").value;
+            const modelSelect = document.getElementById("modelSelect");
+            const ratingField = document.getElementById("ratingField");
+            const helpfulVoteField = document.getElementById("helpfulVoteField");
+
+            // Clear previous options
+            modelSelect.innerHTML = "";
+
+            // Determine which model list to use based on category selection
+            const models = modelCategory === "text_with_features" ? textWithFeaturesModels : textOnlyModels;
+            
+            // Populate the model dropdown with options
+            models.forEach(model => {
+                const option = document.createElement("option");
+                option.value = model;
+                option.textContent = model;
+                modelSelect.appendChild(option);
+            });
+
+            // Show or hide rating and helpful vote fields based on model category
+            if (modelCategory === "text_with_features") {
+                ratingField.classList.remove("hidden");
+                helpfulVoteField.classList.remove("hidden");
+            } else {
+                ratingField.classList.add("hidden");
+                helpfulVoteField.classList.add("hidden");
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Outlier Detection</h2>
+
+    <form action="/predict" method="post">
+        <!-- Model Category Selection -->
+        <label for="modelCategory">Select Model Type:</label>
+        <select id="modelCategory" name="model_category" onchange="updateModelOptions()">
+            <option value="text_only">Text-Only Models</option>
+            <option value="text_with_features">Text with Features Models</option>
+        </select>
+        
+        <!-- Model Selection Dropdown -->
+        <label for="modelSelect">Select Model:</label>
+        <select id="modelSelect" name="model">
+            <!-- Options will be populated by JavaScript based on selected model category -->
+        </select>
+
+        <!-- Text Fields for Review Information -->
+        <label for="productTitle">Product Title:</label>
+        <input type="text" id="productTitle" name="product_title" required>
+        
+        <label for="reviewTitle">Review Title:</label>
+        <input type="text" id="reviewTitle" name="review_title" required>
+        
+        <label for="reviewText">Review Text:</label>
+        <textarea id="reviewText" name="review_text" rows="4" required></textarea>
+        
+        <!-- Optional Fields for Models with Additional Features -->
+        <div id="ratingField" class="hidden">
+            <label for="rating">Rating:</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" step="1">
+        </div>
+        
+        <div id="helpfulVoteField" class="hidden">
+            <label for="helpfulVote">Helpful Votes:</label>
+            <input type="number" id="helpfulVote" name="helpful_vote" min="0" step="1">
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // Initial call to populate the model options based on default category
+        updateModelOptions();
+    </script>
+
+</body>
+</html>

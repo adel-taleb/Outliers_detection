@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlier Detection Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        label { font-weight: bold; }
+        .result { margin-top: 20px; font-size: 1.2em; color: #333; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Outlier Detection Interface</h1>
+        <form id="predictForm">
+            <label for="productTitle">Product Title:</label>
+            <input type="text" id="productTitle" name="productTitle" required><br><br>
+
+            <label for="reviewTitle">Review Title:</label>
+            <input type="text" id="reviewTitle" name="reviewTitle" required><br><br>
+
+            <label for="reviewText">Review Text:</label>
+            <textarea id="reviewText" name="reviewText" rows="4" required></textarea><br><br>
+
+            <label for="modelSelect">Select Model:</label>
+            <select id="modelSelect" name="modelName" required>
+                <optgroup label="Text-Only Models">
+                    {% for model in text_only_models %}
+                        <option value="{{ model }}">{{ model }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Text + Rating and Helpful Vote">
+                    {% for model in text_with_features_models %}
+                        <option value="{{ model }}">{{ model }}</option>
+                    {% endfor %}
+                </optgroup>
+            </select><br><br>
+
+            <label>
+                <input type="checkbox" id="includeFeatures" name="includeFeatures" onchange="toggleFeatureInputs()"> Include Helpful Vote and Rating
+            </label><br><br>
+
+            <div id="featureInputs" class="hidden">
+                <label for="helpfulVote">Helpful Vote:</label>
+                <input type="number" id="helpfulVote" name="helpfulVote"><br><br>
+
+                <label for="rating">Rating:</label>
+                <input type="number" id="rating" name="rating" step="0.1"><br><br>
+            </div>
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function toggleFeatureInputs() {
+            const featureInputs = document.getElementById("featureInputs");
+            featureInputs.classList.toggle("hidden");
+        }
+
+        async function submitForm() {
+            const form = document.getElementById("predictForm");
+            const formData = new FormData(form);
+            const data = {
+                product_title: formData.get("productTitle"),
+                review_title: formData.get("reviewTitle"),
+                review_text: formData.get("reviewText"),
+                model_name: formData.get("modelName"),
+                include_features: formData.get("includeFeatures") === "on",
+                helpful_vote: formData.get("helpfulVote") || null,
+                rating: formData.get("rating") || null
+            };
+
+            const response = await fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = `Prediction: ${result.result}`;
+        }
+    </script>
+</body>
+</html>
