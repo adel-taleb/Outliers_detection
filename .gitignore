@@ -1,0 +1,25 @@
+#saved models
+*.joblib
+
+# Python virtual environment directory
+venv/*
+
+# Airflow data directory
+airflow-data/logs/*
+all_results/*
+# models directory
+s*
+
+# Configuration files directory
+config/*
+
+# MinIO data directory
+minio_data/*
+
+# Jupyter notebooks directory
+notebooks/*
+
+myapp.log
+gui.py
+guiv2.py
+
