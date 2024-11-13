@@ -1,3 +1,0 @@
-Isolation Forest - Silhouette Score: 0.03
-Isolation Forest - Davies-Bouldin Index: 10.68
-Isolation Forest - Mean Distance to 5 Nearest Neighbors: 0.33

@@ -1,18 +1,18 @@
 #saved models
 *.joblib
 
-# Python virtual environment directory
-venv/*
 
-# model directies
+# model directories
 all_results/*
 fast_api/all_results/*
+amazon_review_outliers
+doc
 # models directory
 s*
 
 # Configuration files directory
 config/*
-
+__pycache__
 # MinIO data directory
 minio_data/*
 

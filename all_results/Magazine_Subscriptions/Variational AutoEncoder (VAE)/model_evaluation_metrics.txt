@@ -1,3 +1,0 @@
-Variational AutoEncoder (VAE) - Silhouette Score: 0.18
-Variational AutoEncoder (VAE) - Davies-Bouldin Index: 3.95
-Variational AutoEncoder (VAE) - Mean Distance to 5 Nearest Neighbors: 0.37

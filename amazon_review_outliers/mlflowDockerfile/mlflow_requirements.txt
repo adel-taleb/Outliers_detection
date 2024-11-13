@@ -1,7 +1,0 @@
-mlflow
-scikit-learn
-pandas
-datasets
-boto3
-sentence-transformers
-colorlog

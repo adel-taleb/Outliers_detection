@@ -1,3 +1,0 @@
-AutoEncoder - Silhouette Score: 0.09
-AutoEncoder - Davies-Bouldin Index: 5.95
-AutoEncoder - Mean Distance to 5 Nearest Neighbors: 0.33
