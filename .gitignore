@@ -9,7 +9,7 @@ amazon_review_outliers
 doc
 # models directory
 s*
-
+all_results.tar.gz
 # Configuration files directory
 config/*
 __pycache__

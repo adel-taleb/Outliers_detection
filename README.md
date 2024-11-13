@@ -20,14 +20,15 @@ Docker: The API is containerized for easier deployment and reproducibility.
 ## Repository Structure
 The updated structure of this branch includes:
 
-fast_api/: Contains the FastAPI application code for serving outlier detection and distribution shift scoring.
-.gitignore: Specifies files and folders to be ignored in version control.
-README.md: This file, providing an overview and instructions for the project.
-outliers_detection.py: Main script implementing outlier detection algorithms.
-outliers_tester.py: Script for testing and validating the trained models.
-requirements.txt: List of dependencies required to run the project.
-train.ipynb: Jupyter notebook for model training and experimentation.
-tester.ipynb: Jupyter notebook for testing the outlier detection models.
+- **fast_api/:** Contains the FastAPI application code for serving outlier detection.
+- **.gitignore:** Specifies files and folders to be ignored in version control.
+- **README.md:** This file, providing an overview and instructions for the project.
+- **outliers_detection.py:** Main script implementing outlier detection algorithms.
+- **outliers_tester.py:** Script for testing and validating the trained models.
+- **requirements.txt:** List of dependencies required to run the project.
+- **train.ipynb:** Jupyter notebook for model training and experimentation.
+- **tester.ipynb:** Jupyter notebook for testing the outlier detection models.
+- **download_model.py:** Script to download the models.
 
 ## Setup Instructions
 1. **Clone the Repository:**
@@ -42,7 +43,11 @@ git checkout model_training
 ```
 pip install -r requirements.txt
 ```
-3. **Run the FastAPI Service:** Navigate to the fast_api folder and start the API using Docker:
+3. **download the models:**
+```
+python download_models.py
+```
+4. **Run the FastAPI Service:** Navigate to the fast_api folder and start the API using Docker:
 
 ```
 cd fast_api
