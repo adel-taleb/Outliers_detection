@@ -17,7 +17,7 @@ config/*
 minio_data/*
 
 # Jupyter notebooks directory
-notebooks/*
+*.ipynb_checkpoints
 
 myapp.log
 gui.py
