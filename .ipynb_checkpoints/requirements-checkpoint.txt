@@ -1,2 +1,0 @@
-datasets
-sentence_transformers
