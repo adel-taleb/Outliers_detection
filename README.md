@@ -1,100 +1,73 @@
-# Outlier Detection with Distribution Shift Scoring
+# Outliers Detection and Distribution Shift Scoring - Model Training Branch
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.9%2B-blue" alt="Python 3.9+">
-  <img src="https://img.shields.io/badge/TensorFlow-GPU-green" alt="TensorFlow GPU">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-blue" alt="Python 3.12+">
+  <img src="https://img.shields.io/badge/Torch-green" alt="Torch">
   <img src="https://img.shields.io/badge/PyOD-Outlier%20Detection-yellow" alt="PyOD">
 </p>
 
-## Overview
+This project was developed as part of a technical test for Irly consulting, in the context of applying for a Senior Machine Learning Engineer position. This branch, model_training, focuses on training models for outlier detection and distribution shift scoring, as well as serving these models through an API.
 
-This project implements an Outlier Detection pipeline combined with Distribution Shift Scoring using machine learning models to identify anomalies in the Amazon Reviews Dataset. The goal is to quantify the degree to which each sample deviates from the training distribution, enhancing insights into data drift and anomaly detection.
+## Project Overview
+The objective of this project is to identify anomalies and assess distribution shifts in [Amazon Reviews data 2023](https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023). This branch provides the code for training models and setting up a real-time API for model predictions.
 
-## Features
+## Key Components
+Outlier Detection: Implements different models to identify outliers in the dataset.
+Distribution Shift Scoring: Provides a scoring mechanism to measure deviations from the training distribution.
+API: Built with FastAPI to serve the models for real-time predictions.
+Docker: The API is containerized for easier deployment and reproducibility.
 
-- **Multi-Model Outlier Detection**: Supports models like Isolation Forest, AutoEncoder, Variational AutoEncoder (VAE), and more.
-- **Distribution Shift Scoring**: Quantifies how much each sample deviates from the training distribution.
-- **t-SNE and UMAP Visualization**: Provides visualizations of the data and detected outliers.
-- **Scalable and GPU-Accelerated**: Leverages TensorFlow, cuML, and PyTorch for GPU-accelerated training and scoring.
+## Repository Structure
+The updated structure of this branch includes:
 
-## Project Structure
+fast_api/: Contains the FastAPI application code for serving outlier detection and distribution shift scoring.
+.gitignore: Specifies files and folders to be ignored in version control.
+README.md: This file, providing an overview and instructions for the project.
+outliers_detection.py: Main script implementing outlier detection algorithms.
+outliers_tester.py: Script for testing and validating the trained models.
+requirements.txt: List of dependencies required to run the project.
+train.ipynb: Jupyter notebook for model training and experimentation.
+tester.ipynb: Jupyter notebook for testing the outlier detection models.
 
-```plaintext
-├── outliers_detection.py         # Core detection class
-├── requirements.txt              # Project dependencies
-├── README.md                     # Project documentation
-└── all_results/saved_models/     # Directory for saved models
+## Setup Instructions
+1. **Clone the Repository:**
+
 ```
-## Installation
-### Prerequisites
-- Python 3.9+
-- GPU Setup: NVIDIA GPU with CUDA support (for TensorFlow and cuML compatibility)
-## Setup
-### Clone the repository:
+git clone https://github.com/adel-taleb/Outliers_detection.git
+cd Outliers_detection
+git checkout model_training
+```
+2. **Install Dependencies:** Ensure you have Python 3.8 or later. Install dependencies from requirements.txt:
 
-```
-git clone https://github.com/yourusername/outlier-detection.git
-cd outlier-detection
-```
-### Install dependencies:
 ```
 pip install -r requirements.txt
 ```
-### Ensure CUDA is set up for GPU-accelerated training.
-
-## Usage
-1. Initialize and Run Outlier Detection
-Edit and run the outliers_detection.py file or import OutliersDetection as follows:
+3. **Run the FastAPI Service:** Navigate to the fast_api folder and start the API using Docker:
 
 ```
-from outliers_detection import OutliersDetection
-from pyod.models.iforest import IForest
-from pyod.models.auto_encoder import AutoEncoder
-from pyod.models.vae import VAE
-
-# Define model configurations and datasets
-models = {
-    "Isolation Forest": IForest(contamination=0.1, random_state=42),
-    "AutoEncoder": AutoEncoder(hidden_neuron_list=[64, 32], ...),
-    "Variational AutoEncoder (VAE)": VAE(encoder_neuron_list=[128, 64, 32], ...)
-}
-
-sub_datasets = ["Health_and_Personal_Care", "All_Beauty", ...]
-
-# Train and evaluate each model on each dataset
-for sub_dataset in sub_datasets:
-    for model_name, model_conf in models.items():
-        detector = OutliersDetection(
-            model_conf=model_conf,
-            model_name=model_name,
-            sub_dataset=sub_dataset,
-            add_numerical_data=False,
-            save_dir=f"results/{model_name}/{sub_dataset}"
-        )
+cd fast_api
+docker-compose up --build
+docker-compose up
 ```
+Open the web interface in your browser at http://localhost:8000/.
 
-2. Distribution Shift Scoring
-To analyze distribution shift, run:
-```
-detector.distribution_shift_scoring(detector.X_train, detector.X_test, save_dir="saved_plots", filename="distribution_shift.png")
-```
-3. Visualization
-The following visualizations are available:
+### Interface Features
+<p align="center"> <img src="imgs/fast_api_interface.png" alt="t-SNE Visualization of results of autoencoder on Health_and_Personal_Care subdataset"  alt="Fastapi interface screen" width="400">  </p>
 
-Outlier Score Distribution: Histogram of outlier scores for each model.
-t-SNE: Visualizations to compare model outliers and distribution shift.
+- **Product Title:** Enter the title of the product being reviewed.
+- **Review Title:** Provide the title of the review.
+- **Review Text:** Input the full text of the review for analysis.
+- **Model Selection:** Choose an outlier detection model (Isolation Forest, AutoEncoder, GAN (VAE)) from the dropdown.
+- **Include Helpful Vote and Rating:** Include helpful votes and rating information in the analysis when you choose a model trained on this additional features.
 
-## Evaluation Metrics
-Silhouette Score: Evaluates clustering separation for inliers and outliers.
-Davies-Bouldin Index: Measures clustering validity; lower values indicate better separation.
-Mean Distance to Nearest Neighbors: Highlights outliers based on k-nearest neighbor distance.
-Results
-Model performance and distribution shift scores are saved in the saved_models and saved_plots directories, including model evaluation metrics and score distributions you can dowload it from here.
+### Usage Instructions
+1. Run the FastAPI server using Docker compose.
+2. Open the web interface in your browser.
+3. Fill in the form fields with the relevant review details.
+3. Select the model you wish to use for outlier detection.
+4. Click Submit to get the outlier detection result.
+This interface makes it easy to test the API without needing to use curl commands or other API clients.
 
-## Example Visualizations
-<p align="center"> <img src="all_results/Health_and_Personal_Care/AutoEncoder/tsne_plot_train.png" alt="t-SNE Visualization of results of autoencoder on Health_and_Personal_Care subdataset" width="400"> <img src="all_results/Health_and_Personal_Care/AutoEncoder/distribution_shift.png" alt="Distribution Shift Histogram of autoencoder on Health_and_Personal_Care subdataset" width="400"> </p>
-
-## Notes
-For large datasets, increase GPU memory or optimize model batch sizes to avoid memory issues.
-Use --no-cache during Docker builds to ensure models and data updates reflect correctly.
-Thit project was realized for a technical test for irly consulting group.
+## Project Notes
+This branch is dedicated to model training and API deployment. For a more comprehensive and scalable architecture with model tracking and cloud storage simulation, please refer to the prod_branch.
+The code in this branch provides a straightforward, deployable solution for testing core functionalities of outlier detection and distribution shift scoring.
