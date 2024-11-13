@@ -1,9 +1,8 @@
 import boto3
 import os
-import torch
+
 
 def create_minio_bucket():
-    print("Torch availability:", torch.cuda.is_available()) 
     s3 = boto3.client(
         "s3",
         endpoint_url=os.getenv("MLFLOW_S3_ENDPOINT_URL", "http://minio:9000"),

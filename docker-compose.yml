@@ -18,7 +18,6 @@ x-airflow-common:
     - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
     - ./ml_module:/opt/airflow/ml_module
     - ./airflow-data/airflow.cfg:/opt/airflow/airflow.cfg
-  user: "0"  # run as root
 
   depends_on:
     - postgres
@@ -67,12 +66,7 @@ services:
     command: airflow scheduler
     container_name: airflow_scheduler
     restart: always
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
-              driver: nvidia
+
 
   mlflow:
     build: mlflowDockerfile
