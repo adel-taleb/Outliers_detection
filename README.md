@@ -17,12 +17,12 @@ The objective of this project is to perform anomaly detection and evaluate distr
 - API: Built with FastAPI to expose endpoints for outlier detection and scoring.
 - Docker: Containerization of the API and dependencies for easy deployment.
 #### prod_branch: MLflow and MinIO Architecture
-The advanced branch introduces an integrated, orchestrated architecture:
+The prod_branch introduces an integrated, orchestrated architecture:
 - Storage: MinIO simulates a cloud storage environment.
 - Model Tracking: MLflow for model versioning and tracking.
 - Orchestration: Apache Airflow to automate the end-to-end pipeline.
 
-The advanced architecture includes the following services:
+The architecture includes the following services:
 
 - Airflow to manage the end-to-end workflow.
 - MinIO for raw data and model artifact storage.
