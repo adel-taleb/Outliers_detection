@@ -1,0 +1,12 @@
+services: 
+  fastapi_app:
+    build: .
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  
+    restart: always
+    env_file: .env
+    volumes: 
+      - ./all_results/:/app/all_results/

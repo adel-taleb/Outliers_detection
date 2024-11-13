@@ -18,26 +18,33 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+def load_model_cpu(path):
+    if path[-2:] == 'pt':
+        return torch.load(path, map_location=torch.device('cpu'))
+    else:
+        return joblib.load(path)
+
 
 templates = Jinja2Templates(directory="templates")
 sub_dataset = "Health_and_Personal_Care"
 # Load pre-trained models and embedding model
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device="cuda" if torch.cuda.is_available() else "cpu")
+embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device='cpu')
 text_only_models =  {
-    "Isolation Forest": "all_results/"+sub_dataset+"/Isolation Forest/Isolation Forest.joblib",
-    "AutoEncoder": "all_results/"+sub_dataset+"/AutoEncoder/AutoEncoder.joblib",
-    "Variational AutoEncoder (VAE)": "all_results/"+sub_dataset+"/Variational AutoEncoder (VAE)/Variational AutoEncoder (VAE).joblib"
+    "Isolation Forest": "/app/all_results/"+sub_dataset+"/Isolation Forest/Isolation Forest.joblib",
+    "AutoEncoder": "/app/all_results/"+sub_dataset+"/AutoEncoder/AutoEncoder.pt",
+    "Variational AutoEncoder (VAE)": "/app/all_results/"+sub_dataset+"/Variational AutoEncoder (VAE)/Variational AutoEncoder (VAE).pt"
 }
 text_with_features_models = {
-    "Isolation Forest with rates and helpful score": "all_results/"+sub_dataset+"/Isolation Forest_with_numerical_data/Isolation Forest.joblib",
-    "AutoEncoder with rates and helpful score": "all_results/"+sub_dataset+"/AutoEncoder_with_numerical_data/AutoEncoder.joblib",
-    "Variational AutoEncoder (VAE) with rates and helpful score": "all_results/"+sub_dataset+"/Variational AutoEncoder (VAE)_with_numerical_data/Variational AutoEncoder (VAE).joblib"
+    "Isolation Forest with rates and helpful score": "/app/all_results/"+sub_dataset+"/Isolation Forest_with_numerical_data/Isolation Forest.joblib",
+    "AutoEncoder with rates and helpful score": "/app/all_results/"+sub_dataset+"/AutoEncoder_with_numerical_data/AutoEncoder_with_numerical_data.pt",
+    "Variational AutoEncoder (VAE) with rates and helpful score": "/app/all_results/"+sub_dataset+"/Variational AutoEncoder (VAE)_with_numerical_data/Variational AutoEncoder (VAE)_with_numerical_data.pt"
 }
+
 models = {
-    "text_only": {name: joblib.load(path) for name, path in text_only_models.items()},
-    "text_with_features": {name: joblib.load(path) for name, path in text_with_features_models.items()},
+    "text_only": {name: load_model_cpu(path) for name, path in text_only_models.items()},
+    "text_with_features": {name: load_model_cpu(path) for name, path in text_with_features_models.items()},
 }
-scaler = joblib.load("all_results/"+sub_dataset+"/numerical_scaler.joblib")
+scaler = joblib.load("/app/all_results/"+sub_dataset+"/numerical_scaler.joblib")
 
 class PredictionRequest(BaseModel):
     product_title: str

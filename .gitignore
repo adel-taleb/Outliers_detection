@@ -4,9 +4,9 @@
 # Python virtual environment directory
 venv/*
 
-# Airflow data directory
-airflow-data/logs/*
+# model directies
 all_results/*
+fast_api/all_results/*
 # models directory
 s*
 

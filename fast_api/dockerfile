@@ -1,25 +1,19 @@
-FROM continuumio/miniconda3
+# Use official Python image as the base
+FROM python:3.12
 
 # Set working directory
 WORKDIR /app
 
-# Copy the environment file
-COPY environment.yml .
+# Copy the project files to the container
+COPY . /app
 
-# Create the Conda environment based on the environment.yml file
-RUN conda env create -f environment.yml
+# Install Python dependencies
+RUN pip install -r requirements.txt
 
-# Activate the environment and install additional dependencies if necessary
-SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
-
-# Set the environment to activate automatically
-ENV PATH /opt/conda/envs/myenv/bin:$PATH
-
-# Copy the application code
-COPY . .
-
-# Expose the FastAPI port
+# Expose FastAPI port
 EXPOSE 8000
 
-# Run the FastAPI server
+ENV CUDA_VISIBLE_DEVICES=""
+
+# Run both MLflow server and FastAPI
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
