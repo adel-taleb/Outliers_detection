@@ -1,9 +1,13 @@
 # Outliers Detection and Distribution Shift Scoring - Model Training Branch
-
+## Prerequisites
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.12%2B-blue" alt="Python 3.12+">
   <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="Torch">
   <img src="https://img.shields.io/badge/PyOD-Outlier%20Detection-yellow" alt="PyOD">
+  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker">
+  <img src="https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker compose">
+  
+  
 </p>
 
 ## Project Overview
