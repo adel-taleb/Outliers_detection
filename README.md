@@ -13,6 +13,12 @@
 ## Project Overview
 The objective of this project is to identify anomalies and assess distribution shifts in [Amazon Reviews data 2023](https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023). This branch provides the code for training models and setting up a real-time API for model predictions.
 
+## Key Components
+- Outlier Detection: Implements different models to identify outliers in the dataset.
+- Distribution Shift Scoring: Provides a scoring mechanism to measure deviations from the training distribution.
+- API: Built with FastAPI to serve the models for real-time predictions.
+- Docker: The API is containerized for easier deployment and reproducibility.
+
 ## What does Outliers mean in our context?
 
 To address the question of what constitutes an outlier in our context, I considered two types of training approaches:
@@ -41,13 +47,6 @@ For this experimentation, I utilized several models suited for anomaly detection
 - **AutoEncoder:** A neural network model trained to reconstruct input data. Anomalies are identified based on reconstruction errors, with higher errors indicating potential outliers that deviate from typical patterns.
 - **Variational AutoEncoder (VAE):** An extension of the AutoEncoder that introduces a probabilistic element, allowing the model to learn a latent space representation. The VAE is useful for capturing complex patterns and identifying outliers that do not fit within the learned distribution.
 - **Isolation Forest:** An ensemble method that isolates data points by randomly partitioning the data space. Points that require fewer splits to be isolated are considered anomalies. It is effective for high-dimensional data and captures outliers based on their isolation.
-
-
-## Key Components
-Outlier Detection: Implements different models to identify outliers in the dataset.
-Distribution Shift Scoring: Provides a scoring mechanism to measure deviations from the training distribution.
-API: Built with FastAPI to serve the models for real-time predictions.
-Docker: The API is containerized for easier deployment and reproducibility.
 
 ## Repository Structure
 The updated structure of this branch includes:
