@@ -1,6 +1,17 @@
-# Amazon Review Analysis System
+# Outliers Detection and Distribution Shift Scoring - Production Branch
 
-A scalable machine learning system for analyzing Amazon reviews using anomaly detection techniques. The system processes raw review data, trains multiple models for outlier detection, and provides real-time predictions through a REST API.
+The prod_branch is designed to meet production-level requirements by implementing a scalable and reliable architecture. This branch enhances the initial model deployment setup by integrating essential tools for model management, storage, and tracking:
+
+- **MLflow for Model Tracking and Management**
+- **MinIO as Cloud Storage Simulation**
+- **Docker and Docker Compose**
+
+## Prerequisites
+  <img src="https://img.shields.io/badge/Python-3.12%2B-blue" alt="Python 3.12+">
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="Torch">
+  <img src="https://img.shields.io/badge/PyOD-Outlier%20Detection-yellow" alt="PyOD">
+  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker">
+  <img src="https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker compose">
 
 ## Architecture Overview
 
@@ -88,12 +99,6 @@ flowchart TB
 - Apache Airflow manages the end-to-end workflow
 - Automates data processing, model training, and deployment
 - Monitors service health and pipeline execution
-
-## Prerequisites
-
-- Docker
-- Docker Compose
-- Python 3.8+
 
 ## Project Structure
 
