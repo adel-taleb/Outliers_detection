@@ -124,6 +124,11 @@ The code in this branch provides a straightforward, deployable solution for test
 - Similarly, the Davies-Bouldin Index, though improved with additional features, still reflects relatively high values, particularly for the Isolation Forest. A hihg Davies-Bouldin Index often implies that the clusters are not distinctly separated, meaning there is overlap between inliers and outliers in the feature space.
 - The low Silhouette Scores (especially 0.03 for Isolation Forest with textual data only) suggest that the distinction between inliers and outliers is minimal. This implies that while the models identify some samples as outliers, they may not be capturing highly distinct or interpretable anomalies.
 - The results on the Magazine_subscriptions dataset and the Subscription_Boxes dataset were very similar to the results on the Health_and_Personal_Care dataset.
+- Visualization with tsne does not distinguish outliers from other data, regardless of the model, as can be seen in the figure. 
+<p align="center">
+   <img src="imgs/tsne_plot_train.png" width="400"><br>
+   TSNE visualiation (AutoEncoder on Health_and_Personal_Care)
+</p>
 ### Impact of Additional Features
 - Although the addition of useful ratings and votes improves measurements for all models, the degree of improvement is modest (for example, an increase in Silhouette score from 0.05 to 0.31 for AutoEncoder and 0.06 to 0.33 for VAE and a very small change for Isolation Forest). This shows that the models showing the greatest improvement tend to be deplearning-based models, and may therefore suggest that textual data alone is too complex, and that an avenue for improvement is to combine it with other data using deeper, more complex deplearning models. 
 - If we consider this improvement to be significant, outliers can be considered by the models to be reviews with a contradictory rating (negative review and positive rating, or positive review and negative rating), and that the helpful_Vote feature can be used to validate the reliability of the comment.
