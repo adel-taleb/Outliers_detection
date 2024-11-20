@@ -183,11 +183,12 @@ AWS_SECRET_ACCESS_KEY=minio123
 Make predictions using the FastAPI endpoint:
 
 ```bash
-curl -X POST "http://localhost:3000/predict" \
+curl -X POST "http://localhost:8000/predict" \
      -H "Content-Type: application/json" \
      -d '{
-           "text": "Sample review text",
+           "text": "This is a great product! Highly recommended.",
            "rating": 5,
+           "helpful_vote":5,
            "verified_purchase": true
          }'
 ```

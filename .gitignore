@@ -1,6 +1,3 @@
-# macOS system file
-.DS_Store
-
 # Python virtual environment directory
 venv/*
 
@@ -15,6 +12,7 @@ minio_data/*
 
 # Jupyter notebooks directory
 notebooks/*
+dags/.ipynb_checkpoints
 
 myapp.log
 

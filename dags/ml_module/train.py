@@ -45,7 +45,7 @@ def read_csv_from_minio(bucket_name, file_key):
         csv_obj = s3.get_object(Bucket=bucket_name, Key=file_key)
         csv_string = csv_obj["Body"].read().decode("utf-8")
         logger.info(f"{file_key} successfully downloaded.")
-        return pd.read_csv(StringIO(csv_string))
+        return pd.read_csv(StringIO(csv_string)).iloc[:, 1:]
     except Exception as e:
         logger.error(f"Error reading {file_key} from MinIO: {e}")
         raise
@@ -105,6 +105,7 @@ def train_and_log_models():
             logger.info(
                 f"{model_name} trained and logged to MLflow at mlflow:5050 with artifacts in "
             )
+
 
 # Run the training and logging function
 if __name__ == "__main__":
