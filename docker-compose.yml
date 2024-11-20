@@ -21,9 +21,6 @@ x-airflow-common:
 
   depends_on:
     - postgres
-networks:
-  airflow_network:
-    driver: bridge
     
 services:
   postgres:

@@ -13,62 +13,6 @@ The prod_branch is designed to meet production-level requirements by implementin
   <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker">
   <img src="https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker compose">
 
-## Architecture Overview
-
-
-```mermaid
-flowchart TB
-    subgraph DataIngestion["Data Ingestion & Preprocessing"]
-        RawData["Raw Amazon Reviews\n(Text + Metadata)"]
-        MinIO1["MinIO Storage\n- Data bucket\n- Artifact bucket"]
-        Preprocessor["Preprocessing Service\n- Scale numerical features\n- Encode categorical data\n- Create text embeddings"]
-    end
-
-    subgraph ModelTraining["Model Training"]
-        Trainer["Training Service\n- Isolation Forest\n- Local Outlier Factor\n- Autoencoder"]
-        MLflow["MLflow\nModel Registry"]
-    end
-
-    subgraph PredictionService["Prediction Service"]
-        FastAPI["FastAPI Service"]
-        ApiGateway["API Gateway"]
-        Users["End Users"]
-    end
-
-    subgraph Orchestration["Pipeline Orchestration"]
-        Airflow["Apache Airflow"]
-    end
-
-    %% Data flow connections
-    RawData -->|Ingest| MinIO1
-    MinIO1 -->|Load Data| Preprocessor
-    Preprocessor -->|Store Processed Data| MinIO1
-    MinIO1 -->|Training Data| Trainer
-    Trainer -->|Register Models| MLflow
-    MLflow -->|Store Artifacts| MinIO1
-    MLflow -->|Load Model Metadata| FastAPI
-    MinIO1 -->|Load Model Artifacts & Preprocessors| FastAPI
-    Users -->|Requests| ApiGateway
-    ApiGateway -->|Forward| FastAPI
-    FastAPI -->|Predictions| ApiGateway
-    ApiGateway -->|Response| Users
-
-    %% Airflow orchestration connections
-    Airflow -->|Orchestrate| DataIngestion
-    Airflow -->|Orchestrate| ModelTraining
-    Airflow -->|Monitor| PredictionService
-
-    classDef storage fill:#e3e8f0,stroke:#333,stroke-width:2px
-    classDef service fill:#dbeafe,stroke:#333,stroke-width:2px
-    classDef orchestration fill:#dcfce7,stroke:#333,stroke-width:2px
-    classDef user fill:#fff,stroke:#333,stroke-width:2px
-
-    class MinIO1,MLflow storage
-    class Preprocessor,Trainer,FastAPI,ApiGateway service
-    class Airflow orchestration
-    class Users user
-```
-
 
 ## System Components
 
@@ -84,7 +28,6 @@ flowchart TB
 - Implements multiple anomaly detection models:
   - Isolation Forest
   - Local Outlier Factor
-  - Autoencoder
 - Models are tracked and versioned in MLflow
 - Model artifacts are stored in MinIO's artifact bucket
 - Training metrics and parameters are logged in MLflow
@@ -103,7 +46,7 @@ flowchart TB
 ## Project Structure
 
 ```
-amazon-review-analysis/
+Outliers_detection/
 ├── docker-compose.yml
 ├── .env
 ├── AirflowDockerfile
